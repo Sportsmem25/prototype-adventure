@@ -1,24 +1,24 @@
-using UnityEngine;
+using FMOD.Studio;
 using FMODUnity;
+using UnityEngine;
 
 public class PlayerAudioController : MonoBehaviour
 {
-    [SerializeField] private EventReference walkEvent;
-    [SerializeField] private EventReference runEvent;
+    [SerializeField] private EventReference footstepsEvent;
 
     [SerializeField] private EventReference smellEvent;
     [SerializeField] private EventReference pickupEvent;
     [SerializeField] private EventReference damageEvent;
 
-    private bool isWasMoving;
-    private bool isWasRunning;
     private PlayerMovementController movementController;
     private PlayerStateController stateController;
+    private EventInstance footstepsInstance;
 
     private void Awake()
     {
         movementController = GetComponent<PlayerMovementController>();
         stateController = GetComponent<PlayerStateController>();
+        footstepsInstance = RuntimeManager.CreateInstance(footstepsEvent);
     }
 
     private void Update()
@@ -43,13 +43,23 @@ public class PlayerAudioController : MonoBehaviour
 
     private void HandleMovementSounds()
     {
-        if (movementController.IsMoving && !isWasMoving)
-            RuntimeManager.PlayOneShot(walkEvent, transform.position);
+        if (movementController.IsMoving)
+        {
+            PLAYBACK_STATE state;
+            footstepsInstance.getPlaybackState(out state);
+            if (state != PLAYBACK_STATE.PLAYING)
+                footstepsInstance.start();
 
-        if (movementController.IsRunning && !isWasRunning)
-            RuntimeManager.PlayOneShot(runEvent, transform.position);
+            if (movementController.IsRunning)
+                footstepsInstance.setParameterByName("Speed", 1);
+            else
+                footstepsInstance.setParameterByName("Speed", 0);
 
-        isWasMoving = movementController.IsMoving;
-        isWasRunning = movementController.IsRunning;
+            RuntimeManager.AttachInstanceToGameObject(footstepsInstance, transform);
+        }
+        else
+        {
+            footstepsInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
     }
 }

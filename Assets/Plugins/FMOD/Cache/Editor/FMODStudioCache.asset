@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: ../../../FMOD Projects/Project Adventure/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639053940750640691
+  lastModified: 639087024628572716
   FileSizes:
   - Name: Desktop
-    Value: 844
+    Value: 1068
   Exists: 1
 --- !u!114 &-1668047580744414627
 MonoBehaviour:
@@ -47,6 +47,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-1583172814298895505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Background.bank
+  m_EditorClassIdentifier: 
+  Path: ../../../FMOD Projects/Project Adventure/Build/Desktop/Background.bank
+  Name: Background
+  StudioPath: bank:/Background
+  lastModified: 639087024628875589
+  FileSizes:
+  - Name: Desktop
+    Value: 3009152
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,17 +82,22 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: -2802546750657457770}
   - {fileID: 6888409497551269603}
+  - {fileID: -1583172814298895505}
   EditorEvents:
   - {fileID: 9139461232030008312}
   - {fileID: 3998168023172992495}
   - {fileID: -1668047580744414627}
+  - {fileID: 4036093537695945472}
+  - {fileID: 2207760792611591598}
+  - {fileID: 6973211534693344559}
+  - {fileID: 6976278687729198029}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6888409497551269603}
   StringsBanks:
   - {fileID: -2802546750657457770}
   cacheVersion: 131858
-  cacheTime: 639053940750640691
+  cacheTime: 639087024628875589
   SerializableEventsDict:
   - key: event:/DogWalkSound
     index: 0
@@ -80,6 +105,39 @@ MonoBehaviour:
     index: 1
   - key: event:/PickUpSound
     index: 2
+  - key: event:/MainTitle
+    index: 3
+  - key: event:/LevelSound_1
+    index: 4
+  - key: event:/DogRunSound
+    index: 5
+--- !u!114 &2207760792611591598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/LevelSound_1
+  m_EditorClassIdentifier: 
+  Path: event:/LevelSound_1
+  Guid:
+    Data1: -223858197
+    Data2: 1290398372
+    Data3: 1524898236
+    Data4: 1315360122
+  Banks:
+  - {fileID: -1583172814298895505}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &3998168023172992495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +165,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &4036093537695945472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MainTitle
+  m_EditorClassIdentifier: 
+  Path: event:/MainTitle
+  Guid:
+    Data1: -1112082495
+    Data2: 1105408182
+    Data3: 552132774
+    Data4: -1834336701
+  Banks:
+  - {fileID: -1583172814298895505}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &6888409497551269603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,11 +207,65 @@ MonoBehaviour:
   Path: ../../../FMOD Projects/Project Adventure/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639053940750630727
+  lastModified: 639087024628562722
   FileSizes:
   - Name: Desktop
-    Value: 82880
+    Value: 182912
   Exists: 1
+--- !u!114 &6973211534693344559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/DogRunSound
+  m_EditorClassIdentifier: 
+  Path: event:/DogRunSound
+  Guid:
+    Data1: 1537075336
+    Data2: 1228761575
+    Data3: -1304950347
+    Data4: 2085176292
+  Banks:
+  - {fileID: 6888409497551269603}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
+--- !u!114 &6976278687729198029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/DogGrunt
+  m_EditorClassIdentifier: 
+  Path: event:/DogGrunt
+  Guid:
+    Data1: -1445047373
+    Data2: 1252164023
+    Data3: 643139990
+    Data4: 1327297756
+  Banks:
+  - {fileID: 6888409497551269603}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &9139461232030008312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,16 +280,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/DogWalkSound
   Guid:
-    Data1: -398279103
-    Data2: 1233648089
-    Data3: -22499428
-    Data4: -470556051
+    Data1: -1632443515
+    Data2: 1206832718
+    Data3: 1575633570
+    Data4: 252232529
   Banks:
   - {fileID: 6888409497551269603}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
+  MinDistance: 0
+  MaxDistance: 0
   Length: 0

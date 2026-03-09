@@ -7,11 +7,18 @@ public class EnemySmellHighlightController : MonoBehaviour
     [SerializeField] private Material smellHighlightMaterial;
     [SerializeField] private SmellController smellController;
 
-    private Material originalMaterial;
+    private Material[] originalMaterial;
+    private Material[] highlightedMaterial;
 
     private void Awake()
     {
-        originalMaterial = enemyRenderer.material;
+        originalMaterial = enemyRenderer.materials;
+        highlightedMaterial = new Material[originalMaterial.Length + 1];
+        for(int i = 0; i < originalMaterial.Length; i++)
+        {
+            highlightedMaterial[i] = originalMaterial[i];
+        }
+        highlightedMaterial[originalMaterial.Length] = smellHighlightMaterial;
     }
 
     private void Start()
@@ -21,8 +28,8 @@ public class EnemySmellHighlightController : MonoBehaviour
 
     private void OnSmellChanged(bool isSmelling)
     {
-        enemyRenderer.material = isSmelling
-            ? smellHighlightMaterial
+        enemyRenderer.materials = isSmelling
+            ? highlightedMaterial
             : originalMaterial;
     }
 }

@@ -1,25 +1,28 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : HumanBase
 {
     private enum State { Idle, Patrol, Chase, Caught }
 
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private Transform playerPosition;
     [SerializeField] private float catchDistance;
+    [SerializeField] private float waitTime;
 
     private PlayerHealthController playerHealth;
     private PlayerDamageFXController plDamageFXController;
-    private NavMeshAgent meshAgent;
     private EnemyVision enemyVision;
     private State state;
     private int currentPatrolIndex;
+    private float waitTimer;
+    private bool isWaiting;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         enemyVision = GetComponent<EnemyVision>();
-        meshAgent = GetComponent<NavMeshAgent>();
         playerHealth = FindObjectOfType<PlayerHealthController>();
         plDamageFXController = FindObjectOfType<PlayerDamageFXController>();
     }
@@ -32,6 +35,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        base.Update();
         switch (state)
         {
             case State.Patrol:
@@ -49,6 +53,15 @@ public class EnemyController : MonoBehaviour
 
                 break;
         }
+
+    }
+
+    protected override void UpdateStateFromMovement()
+    {
+        if (state == State.Chase || state == State.Caught) 
+            return;
+
+        base.UpdateStateFromMovement();
     }
 
     private void GoToNextPatrolPoint()
@@ -56,20 +69,33 @@ public class EnemyController : MonoBehaviour
         if (patrolPoints.Length == 0)
             return;
 
-        meshAgent.isStopped = false;
-        meshAgent.SetDestination(patrolPoints[currentPatrolIndex].position);
+        agent.isStopped = false;
+        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+        SetState(HumanState.Walk);
     }
 
     private void UpdatePatrol()
     {
-        if (!meshAgent.pathPending && meshAgent.remainingDistance < 0.5f)
-            GoToNextPatrolPoint();
+        if (isWaiting)
+        {
+            waitTimer -= Time.deltaTime;
+            if (waitTimer <= 0)
+            {
+                isWaiting = false;
+                GoToNextPatrolPoint();
+            }
+            return;
+        }
+
+        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            StartWaiting();
     }
 
     private void UpdateChase()
     {
-        meshAgent.SetDestination(playerPosition.position);
+        agent.isStopped = false;
+        agent.SetDestination(playerPosition.position);
     }
 
     private void CheckCatchPlayer()
@@ -84,6 +110,7 @@ public class EnemyController : MonoBehaviour
         if (!enemyVision.SeeTarget(playerPosition))
         {
             state = State.Patrol;
+            SetState(HumanState.Walk);
             GoToNextPatrolPoint();
             Debug.Log("Враг потерял игрока и возвращается патрулировать");
         }
@@ -94,6 +121,7 @@ public class EnemyController : MonoBehaviour
         if (enemyVision.SeeTarget(playerPosition))
         {
             state = State.Chase;
+            SetState(HumanState.Chase);
             Debug.Log("Враг увидел игрока и начинает преследовать");
         }
     }
@@ -101,9 +129,18 @@ public class EnemyController : MonoBehaviour
     private void CatchPlayer()
     {
         state = State.Caught;
-        meshAgent.isStopped = true;
+        agent.isStopped = true;
+        SetState(HumanState.Catch);
         playerHealth.TakeDamage(80);
         plDamageFXController.PlayDamageFlash();
         Debug.Log("Враг догнал игрока");
+    }
+
+    private void StartWaiting()
+    {
+        isWaiting = true;
+        waitTimer = waitTime;
+        agent.isStopped = true;
+        SetState(HumanState.Idle);
     }
 }
