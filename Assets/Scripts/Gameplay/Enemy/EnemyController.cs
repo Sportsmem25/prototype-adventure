@@ -1,70 +1,85 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 public class EnemyController : HumanBase
 {
-    private enum State { Idle, Patrol, Chase, Caught }
+    public Transform PlayerTransform => playerPosition;
+    public EnemyVision Vision => enemyVision;
+    public float CatchDistance => catchDistance;
 
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private Transform playerPosition;
     [SerializeField] private float catchDistance;
     [SerializeField] private float waitTime;
 
-    private PlayerHealthController playerHealth;
+    private IDamageable playerHealth;
+    private IEnemyState currentState;
     private PlayerDamageFXController plDamageFXController;
     private EnemyVision enemyVision;
-    private State state;
     private int currentPatrolIndex;
     private float waitTimer;
     private bool isWaiting;
+
+    [Inject]
+    public void Construct(IDamageable playerHealth)
+    {
+        this.playerHealth = playerHealth;
+    }
 
     protected override void Awake()
     {
         base.Awake();
 
         enemyVision = GetComponent<EnemyVision>();
-        playerHealth = FindObjectOfType<PlayerHealthController>();
         plDamageFXController = FindObjectOfType<PlayerDamageFXController>();
     }
 
     private void Start()
     {
-        state = State.Patrol;
-        GoToNextPatrolPoint();
+        SetState(new EnemyPatrolState(this));
     }
 
     private void Update()
     {
-        base.Update();
-        switch (state)
-        {
-            case State.Patrol:
-                UpdatePatrol();
-                CheckVision();
-                break;
+        currentState?.Update();
+    }
 
-            case State.Chase: 
-                UpdateChase();
-                CheckCatchPlayer();
-                CheckVisionLost();
-                break;
+    public void SetState(IEnemyState newState)
+    {
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter();
+    }
 
-            case State.Caught:
+    public void SetHumanState(HumanState state)
+    {
+        SetState(state);
+    }
 
-                break;
-        }
+    public void MoveToPlayer()
+    {
+        agent.isStopped = false;
+        agent.SetDestination(playerPosition.position);
+    }
 
+    public bool CanSeePlayer()
+    {
+        return enemyVision.SeeTarget(playerPosition);
+    }
+
+    public bool IsPlayerInCatchRange()
+    {
+        float distance = Vector3.Distance(transform.position, playerPosition.position);
+        return distance <= catchDistance;
     }
 
     protected override void UpdateStateFromMovement()
     {
-        if (state == State.Chase || state == State.Caught) 
-            return;
 
-        base.UpdateStateFromMovement();
     }
 
-    private void GoToNextPatrolPoint()
+    public void GoToNextPatrolPoint()
     {
         if (patrolPoints.Length == 0)
             return;
@@ -75,7 +90,7 @@ public class EnemyController : HumanBase
         SetState(HumanState.Walk);
     }
 
-    private void UpdatePatrol()
+    public void UpdatePatrol()
     {
         if (isWaiting)
         {
@@ -92,44 +107,14 @@ public class EnemyController : HumanBase
             StartWaiting();
     }
 
-    private void UpdateChase()
+    public void StopAgent()
     {
-        agent.isStopped = false;
-        agent.SetDestination(playerPosition.position);
-    }
-
-    private void CheckCatchPlayer()
-    {
-        float distance = Vector3.Distance(transform.position, playerPosition.position);
-        if(distance <= catchDistance)
-            CatchPlayer();
-    }
-
-    private void CheckVisionLost()
-    {
-        if (!enemyVision.SeeTarget(playerPosition))
-        {
-            state = State.Patrol;
-            SetState(HumanState.Walk);
-            GoToNextPatrolPoint();
-            Debug.Log("¬раг потер€л игрока и возвращаетс€ патрулировать");
-        }
-    }
-
-    private void CheckVision()
-    {
-        if (enemyVision.SeeTarget(playerPosition))
-        {
-            state = State.Chase;
-            SetState(HumanState.Chase);
-            Debug.Log("¬раг увидел игрока и начинает преследовать");
-        }
-    }
-
-    private void CatchPlayer()
-    {
-        state = State.Caught;
         agent.isStopped = true;
+    }
+
+    public void CatchPlayerInternal()
+    {
+        StopAgent();
         SetState(HumanState.Catch);
         playerHealth.TakeDamage(80);
         plDamageFXController.PlayDamageFlash();

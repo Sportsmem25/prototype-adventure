@@ -13,12 +13,14 @@ public class PlayerAudioController : MonoBehaviour
     private PlayerMovementController movementController;
     private PlayerStateController stateController;
     private EventInstance footstepsInstance;
+    private EventInstance smellInstance;
 
     private void Awake()
     {
         movementController = GetComponent<PlayerMovementController>();
         stateController = GetComponent<PlayerStateController>();
         footstepsInstance = RuntimeManager.CreateInstance(footstepsEvent);
+        smellInstance = RuntimeManager.CreateInstance(smellEvent);
     }
 
     private void Update()
@@ -33,7 +35,15 @@ public class PlayerAudioController : MonoBehaviour
 
     public void PlaySmell()
     {
-        RuntimeManager.PlayOneShot(smellEvent, transform.position);
+        PLAYBACK_STATE state;
+        smellInstance.getPlaybackState(out state);
+        if (state != PLAYBACK_STATE.PLAYING)
+            smellInstance.start();
+    }
+
+    public void StopSmell()
+    {
+        smellInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     public void PlayDamage()
@@ -45,21 +55,25 @@ public class PlayerAudioController : MonoBehaviour
     {
         if (movementController.IsMoving)
         {
+            // Проверка состояния, чтобы не вызывать Start() постоянно
             PLAYBACK_STATE state;
             footstepsInstance.getPlaybackState(out state);
-            if (state != PLAYBACK_STATE.PLAYING)
+            if (state == PLAYBACK_STATE.STOPPED)
                 footstepsInstance.start();
 
-            if (movementController.IsRunning)
-                footstepsInstance.setParameterByName("Speed", 1);
-            else
-                footstepsInstance.setParameterByName("Speed", 0);
-
-            RuntimeManager.AttachInstanceToGameObject(footstepsInstance, transform);
+            // Обновление параметра
+            float speedValue = movementController.IsRunning ? 1f : 0f;
+            footstepsInstance.setParameterByName("Speed", speedValue);
         }
         else
         {
             footstepsInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
+    }
+
+    private void OnDestroy()
+    {
+        footstepsInstance.release();
+        smellInstance.release();
     }
 }

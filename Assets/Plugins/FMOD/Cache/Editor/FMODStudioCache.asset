@@ -1,5 +1,60 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6927273817468737303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SmellAudio
+  m_EditorClassIdentifier: 
+  Path: event:/SmellAudio
+  Guid:
+    Data1: -829700618
+    Data2: 1103960868
+    Data3: -2131711323
+    Data4: -1879671603
+  Banks:
+  - {fileID: 6888409497551269603}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3967
+--- !u!114 &-6512266351322728730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Footsteps
+  m_EditorClassIdentifier: 
+  Path: event:/Footsteps
+  Guid:
+    Data1: -1709314683
+    Data2: 1334581214
+    Data3: -1381324160
+    Data4: -318487559
+  Banks:
+  - {fileID: 6888409497551269603}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 5542836157476802495}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 4949
 --- !u!114 &-2802546750657457770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,10 +70,10 @@ MonoBehaviour:
   Path: ../../../FMOD Projects/Project Adventure/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639087024628572716
+  lastModified: 639109332108607954
   FileSizes:
   - Name: Desktop
-    Value: 1068
+    Value: 1196
   Exists: 1
 --- !u!114 &-1668047580744414627
 MonoBehaviour:
@@ -62,11 +117,38 @@ MonoBehaviour:
   Path: ../../../FMOD Projects/Project Adventure/Build/Desktop/Background.bank
   Name: Background
   StudioPath: bank:/Background
-  lastModified: 639087024628875589
+  lastModified: 639109332108392386
   FileSizes:
   - Name: Desktop
-    Value: 3009152
+    Value: 3016352
   Exists: 1
+--- !u!114 &-1035294972519364228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ButtonClick
+  m_EditorClassIdentifier: 
+  Path: event:/ButtonClick
+  Guid:
+    Data1: -1659314188
+    Data2: 1311567784
+    Data3: -106270529
+    Data4: -1579161471
+  Banks:
+  - {fileID: -1583172814298895505}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,32 +167,40 @@ MonoBehaviour:
   - {fileID: -1583172814298895505}
   EditorEvents:
   - {fileID: 9139461232030008312}
-  - {fileID: 3998168023172992495}
   - {fileID: -1668047580744414627}
   - {fileID: 4036093537695945472}
   - {fileID: 2207760792611591598}
   - {fileID: 6973211534693344559}
   - {fileID: 6976278687729198029}
+  - {fileID: -6512266351322728730}
+  - {fileID: -1035294972519364228}
+  - {fileID: -6927273817468737303}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6888409497551269603}
   StringsBanks:
   - {fileID: -2802546750657457770}
   cacheVersion: 131858
-  cacheTime: 639087024628875589
+  cacheTime: 639109332108607954
   SerializableEventsDict:
   - key: event:/DogWalkSound
     index: 0
-  - key: event:/SmellSound
-    index: 1
   - key: event:/PickUpSound
-    index: 2
+    index: 1
   - key: event:/MainTitle
-    index: 3
+    index: 2
   - key: event:/LevelSound_1
-    index: 4
+    index: 3
   - key: event:/DogRunSound
+    index: 4
+  - key: event:/DogGrunt
     index: 5
+  - key: event:/Footsteps
+    index: 6
+  - key: event:/ButtonClick
+    index: 7
+  - key: event:/SmellAudio
+    index: 8
 --- !u!114 &2207760792611591598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,33 +227,6 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
-  Length: 0
---- !u!114 &3998168023172992495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SmellSound
-  m_EditorClassIdentifier: 
-  Path: event:/SmellSound
-  Guid:
-    Data1: 116684627
-    Data2: 1219308450
-    Data3: -1972792183
-    Data4: -1279300311
-  Banks:
-  - {fileID: 6888409497551269603}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
   Length: 0
 --- !u!114 &4036093537695945472
 MonoBehaviour:
@@ -192,6 +255,30 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &5542836157476802495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps/Speed
+  m_EditorClassIdentifier: 
+  Name: Speed
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1373598569
+    data2: 3173903691
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &6888409497551269603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,10 +294,10 @@ MonoBehaviour:
   Path: ../../../FMOD Projects/Project Adventure/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639087024628562722
+  lastModified: 639109332108597854
   FileSizes:
   - Name: Desktop
-    Value: 182912
+    Value: 185088
   Exists: 1
 --- !u!114 &6973211534693344559
 MonoBehaviour:

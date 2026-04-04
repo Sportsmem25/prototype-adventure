@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHealthController : MonoBehaviour
+public class PlayerHealthController : MonoBehaviour, IDamageable
 {
     public float MaxHealth => maxHealth;
     public float CurretnHealth => currentHealth;
