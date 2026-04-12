@@ -43,9 +43,9 @@ public abstract class HumanBase : MonoBehaviour
 
     protected void SetState(HumanState state)
     {
-        //if (currentState == state)
-        //    return;
-        //currentState = state;
+        if (currentState == state)
+            return;
+        currentState = state;
         switch (state)
         {
             case HumanState.Idle:

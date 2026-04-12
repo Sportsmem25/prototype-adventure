@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerDamageFXController : MonoBehaviour
+public class PlayerDamageFXController : MonoBehaviour, IDamageFX
 {
     [SerializeField] private PlayerHealthController health;
     [SerializeField] private Image damageImage;

@@ -12,5 +12,6 @@ public class PlayerInstaller : MonoInstaller
         Container.Bind<PlayerAnimationController>().FromComponentInHierarchy().AsSingle();
         Container.Bind<GameLoop>().FromComponentInHierarchy().AsSingle();
         Container.Bind<IDamageable>().To<PlayerHealthController>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<IDamageFX>().FromComponentInHierarchy().AsSingle();
     }
 }

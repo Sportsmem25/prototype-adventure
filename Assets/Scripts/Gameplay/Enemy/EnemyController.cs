@@ -15,24 +15,23 @@ public class EnemyController : HumanBase
 
     private IDamageable playerHealth;
     private IEnemyState currentState;
-    private PlayerDamageFXController plDamageFXController;
+    private IDamageFX damageFX;
     private EnemyVision enemyVision;
     private int currentPatrolIndex;
     private float waitTimer;
     private bool isWaiting;
 
     [Inject]
-    public void Construct(IDamageable playerHealth)
+    public void Construct(IDamageable playerHealth, IDamageFX damageFX)
     {
         this.playerHealth = playerHealth;
+        this.damageFX = damageFX;
     }
 
     protected override void Awake()
     {
         base.Awake();
-
         enemyVision = GetComponent<EnemyVision>();
-        plDamageFXController = FindObjectOfType<PlayerDamageFXController>();
     }
 
     private void Start()
@@ -117,7 +116,7 @@ public class EnemyController : HumanBase
         StopAgent();
         SetState(HumanState.Catch);
         playerHealth.TakeDamage(80);
-        plDamageFXController.PlayDamageFlash();
+        damageFX.PlayDamageFlash();
         Debug.Log("Враг догнал игрока");
     }
 
